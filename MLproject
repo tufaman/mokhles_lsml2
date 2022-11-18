@@ -1,0 +1,10 @@
+name: mokhles_final_project
+
+conda_env: conda.yaml
+
+entry_points:
+  main:
+    parameters:
+      max_iter: {type: int, default: 100}
+      C: {type: float, default: 1.0}
+    command: "python train.py {max_iter} {C}"
