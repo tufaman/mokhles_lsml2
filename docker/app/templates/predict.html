@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Amazon Reviews Prediction</title>
+    <style>
+        .message {
+            padding: 10px;
+            margin: 5px;
+            background-color: #f3f3f3
+        }
+        nav a {
+            color: #d64161;
+            font-size: 3em;
+            margin-left: 50px;
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+    <hr>
+    <div class="content">
+            <h1>Add a New Review</h1>
+    <form method="post">
+        <label for="heading">Heading</label>
+        <br>
+        <input type="text" name="heading"
+               placeholder="Review Heading"
+               value="{{ request.form['heading'] }}"></input>
+        <br>
+
+        <label for="text">Text</label>
+        <br>
+        <textarea name="text"
+                  placeholder="Review Text"
+                  rows="15"
+                  cols="60"
+                  >{{ request.form['text'] }}</textarea>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    </div>
+</body>
+</html>
