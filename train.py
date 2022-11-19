@@ -2,6 +2,7 @@ import os
 import warnings
 import sys
 import argparse
+import pickle
 
 import pandas as pd
 import numpy as np
@@ -25,7 +26,7 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("max_iter")
-    parser.add_argument("C")
+    parser.add_argument("solver")
     args = parser.parse_args()
     data_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dataset.npz")
     
@@ -38,19 +39,19 @@ if __name__ == "__main__":
                 
 
     max_iter = int(args.max_iter)
-    C = float(args.C)
+    solver = str(args.solver)
     
 
 
     with mlflow.start_run():
-        clf = LogisticRegression(max_iter=max_iter, C=C)
+        clf = LogisticRegression(max_iter=max_iter, solver=solver)
         clf.fit(X_train, y_train)
 
         y_pred = clf.predict(X_test)
 
         (accuracy, precision, recall, f1) = eval_metrics(y_test, y_pred)
 
-        print("Logistic Regression (Max Iterations=%f, C=%f):" % (max_iter, C))
+        print(f"Logistic Regression (Max Iterations={max_iter}, solver={solver})")
         print("  accuracy: %s" % accuracy)
         print("  precision: %s" % precision)
         print("  recall: %s" % recall)
@@ -62,3 +63,5 @@ if __name__ == "__main__":
         mlflow.log_metric("f1", f1)
 
         mlflow.sklearn.log_model(clf, "model")
+        with open('model.pkl', 'wb') as f:
+            pickle.dump(clf, f)
